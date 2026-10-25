@@ -1,0 +1,11 @@
+.env
+venv/
+__pycache__/
+*.pyc
+.idea/
+.pytest_cache/
+*.db
+bank_rag_index.json
+Caddyfile
+data/
+bank_docs/

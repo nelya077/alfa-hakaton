@@ -1,0 +1,20 @@
+.git
+.gitignore
+.idea
+.env
+.env.*
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Данные и материалы банка монтируются томами, в образ не входят
+data/
+bank_docs/
+
+# Файлы деплоя, не нужные внутри образа
+docker-compose.yml
+Caddyfile
+Caddyfile.example
+DEPLOY.md

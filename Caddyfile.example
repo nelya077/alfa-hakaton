@@ -1,0 +1,18 @@
+# Скопируйте на сервере: cp Caddyfile.example Caddyfile
+# Файл Caddyfile в git не коммитится (внутри хеш пароля).
+#
+# Хеш пароля создаётся так (пароль вводите вместо ПАРОЛЬ):
+#   docker run --rm caddy:2 caddy hash-password --plaintext 'ПАРОЛЬ'
+# Результат вставьте ниже вместо ХЕШ.
+
+{$DOMAIN} {
+	encode gzip
+
+	# Защита демо: без неё любой посетитель тратит общий дневной бюджет LLM.
+	# Для жюри сообщите логин и пароль в README или письмом.
+	basic_auth {
+		demo ХЕШ
+	}
+
+	reverse_proxy app:8000
+}

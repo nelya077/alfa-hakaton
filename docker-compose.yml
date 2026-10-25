@@ -1,0 +1,37 @@
+services:
+  app:
+    build: .
+    image: azimut-app:local
+    env_file: .env                     # ключ LLM и настройки; в git не попадает
+    volumes:
+      - ./data:/app/data:ro            # данные кейса: снаружи образа, только чтение
+      - ./bank_docs:/app/bank_docs:ro  # PDF банка: то же
+      - hf_cache:/models               # кэш модели эмбеддингов, чтобы не качать при каждом запуске
+      # Если приложение пишет файлы (news.db, кэш ответов), добавьте для них отдельный том:
+      # - app_state:/app/state
+    expose:
+      - "8000"                         # виден только Caddy внутри сети compose, наружу не публикуется
+    restart: unless-stopped
+    mem_limit: 1400m                   # не даём приложению съесть всю память VPS (2 ГБ)
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"                        # нужен для получения сертификата (HTTP-проверка)
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN}                # берётся из .env рядом с файлом
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data               # здесь хранятся сертификаты: не удалять
+      - caddy_config:/config
+    depends_on:
+      - app
+
+volumes:
+  hf_cache:
+  caddy_data:
+  caddy_config:
+  # app_state:
