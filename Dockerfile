@@ -10,6 +10,12 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
+# 0) Tesseract OCR: PDF банка (Приложение 2) это сканы без текстового слоя, индекс RAG
+# строится через OCR. Бинарник ставится apt-ом, pip-пакет pytesseract его не содержит.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng \
+    && rm -rf /var/lib/apt/lists/*
+
 # 1) Тяжёлое и редко меняющееся: CPU-версия torch (на VPS нет GPU, образ меньше в разы).
 RUN pip install torch --index-url https://download.pytorch.org/whl/cpu
 
