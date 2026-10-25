@@ -33,7 +33,7 @@ import numpy as np
 
 # Модель можно сменить без правки кода: RAG_MODEL=intfloat/multilingual-e5-base (легче по памяти).
 # После смены индекс нужно пересобрать: имя модели хранится внутри bank_rag_index.json.
-MODEL_NAME = os.environ.get("RAG_MODEL", "intfloat/multilingual-e5-large")
+MODEL_NAME = os.environ.get("RAG_MODEL") or "intfloat/multilingual-e5-large"
 CHUNK_SIZE = 800     # символов на чанк -- грубо, но достаточно для демо
 CHUNK_OVERLAP = 150
 
