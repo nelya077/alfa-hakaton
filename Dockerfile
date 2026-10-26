@@ -17,8 +17,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # 1) Тяжёлое и редко меняющееся: CPU-версия torch (на VPS нет GPU, образ меньше в разы).
-RUN pip install torch --index-url https://download.pytorch.org/whl/cpu
-
+RUN pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
 # 2) Остальные зависимости: слой кэшируется, пока requirements.txt не менялся.
 COPY requirements.txt .
 RUN pip install -r requirements.txt
