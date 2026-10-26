@@ -9,3 +9,4 @@ bank_rag_index.json
 Caddyfile
 data/
 bank_docs/
+.venv/
