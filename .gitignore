@@ -10,3 +10,4 @@ Caddyfile
 data/
 bank_docs/
 .venv/
+insights.json
