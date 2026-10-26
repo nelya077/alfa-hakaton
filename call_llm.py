@@ -38,15 +38,16 @@ except ImportError:
 log = logging.getLogger("call_llm")
 
 _DEFAULT_MODELS = {
-    "cheap_classify": "gemma-4-26b-a4b",      # классификация, извлечение фактов
-    "bulk_rank": "qwen3.6-35b-a3b",           # ранжирование релевантности пачками
-    "deep_links": "deepseek-v4.1-flash",      # неочевидные связи
-    "generation": "glm-5.3-flash",            # финальная интерпретация (дорогой шаг)
-    "self_check": "kimi-k2.6",                # проверка полноты/непротиворечивости
-    "vision": "qwen3-vl-30b-a3b-instruct",    # графики/таблицы из PDF
+    "cheap_classify": "google/gemma-4-26b-a4b-it",  # классификация, извлечение фактов
+    "bulk_rank": "qwen/qwen3.6-35b-a3b",         # ранжирование релевантности пачками
+    "deep_links": "deepseek/deepseek-v4.1-flash", # неочевидные связи
+    "generation": "z-ai/glm-5.3-flash",         # финальная интерпретация (дорогой шаг)
+    "self_check": "moonshotai/kimi-k2.6",      # проверка полноты/непротиворечивости
+    "vision": "qwen/qwen3-vl-30b-a3b-instruct",  # графики/таблицы из PDF
 }
-# id можно переопределить в .env: ALFA_MODEL_<ЗАДАЧА В ВЕРХНЕМ РЕГИСТРЕ>
-MODELS = {k: os.environ.get("ALFA_MODEL_" + k.upper(), v) for k, v in _DEFAULT_MODELS.items()}
+# id из списка шлюза организаторов (GET <BASE_URL>/models), с префиксом провайдера.
+# Можно переопределить в .env: ALFA_MODEL_<ЗАДАЧА В ВЕРХНЕМ РЕГИСТРЕ>; пустое значение игнорируется.
+MODELS = {k: os.environ.get("ALFA_MODEL_" + k.upper()) or v for k, v in _DEFAULT_MODELS.items()}
 
 # Счётчик для контроля бюджета в рамках одного запуска
 USAGE = {"calls": 0, "prompt_tokens": 0, "completion_tokens": 0}
